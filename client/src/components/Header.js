@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 
 export default class Header extends React.PureComponent {
     render() {
         const { context } = this.props;
-        const authUser = context.authenticatedUser;       
+        const authUser = context.authenticatedUser;      
 
 
         return (
@@ -15,15 +15,15 @@ export default class Header extends React.PureComponent {
                         { authUser ?
                             <ul className="header--signedin">
                                 <React.Fragment>
-                                    <li><span>Welcome, {authUser.firstName} {authUser.lastName}!</span></li>
-                                    <li><Link to="/signout">Sign Out</Link></li>
+                                    <li><span>Welcome, {authUser.firstName}!</span></li>
+                                    <li><a href="/signout">Sign Out</a></li>
                                 </React.Fragment>                            
                             </ul>
                          :
                             <ul className="header--signedout">
                                 <React.Fragment>
-                                    <li><Link to="/signup">Sign Up</Link></li>
-                                    <li><Link to="/signip">Sign In</Link></li>
+                                    <li><a href="/signup">Sign Up</a></li>
+                                    <li><a href="/signin">Sign In</a></li>
                                 </React.Fragment>                            
                             </ul>
                         }                  

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Data from './Data';
 
 
-const Context = React.createContext();
+export const Context = React.createContext();
 
 /*
 * higher-order component (HOC) that shares functionality 
@@ -11,22 +11,29 @@ const Context = React.createContext();
 */
 
 export class Provider extends Component {
+  state = {
+    authenticatedUser: null,
+    course: null,
+    courses: null
+  }
 
   constructor() {
     super();
     this.data = new Data();
   }
 
-  state = {
-    authenticatedUser: null
-  }
-
-
+  
   render() {
-    const { authenticatedUser } = this.state;
+    const { authenticatedUser,
+            course,
+            courses,
+            
+    } = this.state;
 
     const value = {
       authenticatedUser,
+      course,
+      courses,
       data: this.data,
       actions: {
         signIn: this.signIn,
@@ -68,7 +75,7 @@ export const Consumer = Context.Consumer;
  * @returns {function} A higher-order component.
  */
 
-export default function withContext(Component) {
+ export default function withContext(Component) {
   return function ContextComponent(props) {
     return (
       <Context.Consumer>
