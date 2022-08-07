@@ -19,7 +19,7 @@ import UserSignOut from './components/UserSignOut';
 import UserSignUp from './components/UserSignUp';
 // import Error from './components/Error';
 // import Forbidden from './components/Forbidden';
-// import NotFound from './components/NotFound';
+import NotFound from './components/NotFound';
 // import Authenticated from './components/Authenticated';
 
 // Functions ------------
@@ -42,12 +42,13 @@ export default function App() {
       <HeaderWithContext />
       <Switch>
         <Route  exact path="/" component={Courses}/>
-        {/* <Route path="/courses" component={Courses}/> */}
+        <Route path="/courses" component={Courses}/>
         <Route path="/signin" component={UserSignInWithContext} />  
         <Route path="/signup" component={UserSignUpWithContext} />
              
         <Route path="/signout" component={UserSignOutWithContext} />
         <Route path="/courses/:id" component={CourseDetail} />
+        <Route component={NotFound} />
         <PrivateRoute path="/courses/create" component={CreateCourse} />
         <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
       </Switch>
