@@ -50,6 +50,7 @@ export default function App() {
         <Route path="/signout" component={UserSignOutWithContext} />
 
         <PrivateRoute path="/authenticated" component={AuthWithContext} />
+        <PrivateRoute path="/settings" component={AuthWithContext} />
 
         <Route path="/courses/:id" component={CourseDetailWithContext} />
         <Route component={Error} />
