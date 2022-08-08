@@ -1,28 +1,41 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import {Context} from '../Context';
+import { Link, useParams, useHistory } from 'react-router-dom';
+// import {Context} from '../Context';
 
 
-const CourseDetail = () => {
+function CourseDetail() {
     const [course, setCourse] = useState([]);
+    // const context = useContext(Context.Context);
     const {id} = useParams();
-    const context = useContext(Context);
+    let history = useHistory();
 
     useEffect(() => {
-        context.data.getCourse(id).then((course) =>{
-            if(course){
-                setCourse(course);
-            }else {
-                console.log('Oh noes');
-            }
-        })
-    },[]);
+        const fetchData = async() => {
+            // try {
+                const response = await fetch(`http://localhost:5000/api/courses/${id}`);
+                if(response.status === 200) {
+                    const json = await response.json();
+                    setCourse(json);
+                } else if (response.status === 500) {
+                    history.push('/error');
+                } else {
+                    history.push('/notfound');
+                }
+            // } catch (err) {
+            //     console.log("error", err)
+            // }
+        };
+        fetchData();
+    }, [id, history]);       
+                      
+   
     
 
     
     
     return (
         <main>
+            {/* Action Buttons  */}
             <div className="actions--bar">
                 <div className="wrap">
                     <a className="button" href="update-course.html">Update Course</a>
@@ -39,19 +52,20 @@ const CourseDetail = () => {
                         <div>
                             <h3 className="course--detail--title">Course</h3>
                             <h4 className="course--name">{course.title}</h4>
-                            <p>{course.user.firstName} {course.user.lastName}</p>
+                            <p>John Doe</p>
 
-                            <p>{course.description}</p>
+                            <p>Lorem Ipsum</p>
                             
                            
                         </div>
                         <div>
                             <h3 className="course--detail--title">Estimated Time</h3>
-                            <p>{course.estimatedTime}</p>
+                            <p>1000</p>
 
                             <h3 className="course--detail--title">Materials Needed</h3>
                             <ul className="course--detail--list">
-                                {course.materialsNeeded}
+                                <li>Thing 1</li>
+                                <li>Thing 2</li>
                             </ul>
                         </div>
                     </div>

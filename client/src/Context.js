@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Data from './Data';
+import Cookies from 'js-cookie';
 
 
 /*
@@ -9,22 +10,24 @@ import Data from './Data';
 
 export const Context = React.createContext();
 
+
 export class Provider extends Component {
+
+  state = {
+    authenticatedUser: null,
+  }
+
   // Initialize Data
   constructor() {
     super();
     this.data = new Data();
-  }
-  
-  state = {
-    authenticatedUser: null,
-    course: null,
-    courses: null
+    this.cookie = Cookies.get('authenticatedUser');
+
+    this.state = {
+      authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null
+    };
   }
 
-  
-
-  
   render() {
     // Initialize State
     const { authenticatedUser,
@@ -59,6 +62,7 @@ export class Provider extends Component {
           authenticatedUser: user,
         }
       });
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }
     return user;
   }
