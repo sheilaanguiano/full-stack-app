@@ -30,7 +30,7 @@ export default class UserSignUp extends Component {
                         errors={errors}
                         submit={this.submit}
                         submitButtonText="Sign Up"
-                        elements={() => (
+                        elements={() => ( //render prop
                             <React.Fragment>
                                 <label htmlFor="firstName">First Name</label>
                                 <input 
@@ -69,7 +69,7 @@ export default class UserSignUp extends Component {
                             </React.Fragment>
                         )} 
                     />
-                    <p>Already have a user account? Click here to <Link to="/signin">sign in</Link>!</p>
+                    <p>Already have a user account? Click here to <Link to='/signin'>sign in</Link>!</p>
                 </div>
             </main>
         );
@@ -87,6 +87,7 @@ export default class UserSignUp extends Component {
       }
     
       submit = () => {
+        //Props that pass to the Form component
         const { context } = this.props;
       
         const {
@@ -114,18 +115,18 @@ export default class UserSignUp extends Component {
               context.actions.signIn(emailAddress, password)
                 .then(()=> {
                   this.props.history.push('/courses');
+                  console.log("Do I access context?");
                 });
             }
           })
-          .catch(err => {
-            //handle rejected promises
+          .catch(err => {     //handle rejected promises
             console.log(err);
-            // push to history stack
             this.props.history.push('/error');
           });
       }
     
       cancel = () => {
-        this.props.history.push('/');
+        console.log(this.props.history);
+        this.props.history.push('/courses', );
       }
 }

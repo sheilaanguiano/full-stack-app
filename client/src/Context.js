@@ -2,32 +2,34 @@ import React, { Component } from 'react';
 import Data from './Data';
 
 
-export const Context = React.createContext();
-
 /*
-* higher-order component (HOC) that shares functionality 
-* across the components of the app. This will let you 
-* reuse component logic and state.
+* Higher-order component (HOC) that shares functionality 
+* across the components of the app. 
 */
 
+export const Context = React.createContext();
+
 export class Provider extends Component {
+  // Initialize Data
+  constructor() {
+    super();
+    this.data = new Data();
+  }
+  
   state = {
     authenticatedUser: null,
     course: null,
     courses: null
   }
 
-  constructor() {
-    super();
-    this.data = new Data();
-  }
+  
 
   
   render() {
+    // Initialize State
     const { authenticatedUser,
             course,
-            courses,
-            
+            courses
     } = this.state;
 
     const value = {

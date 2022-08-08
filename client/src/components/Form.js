@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+//function that renders any validation errors sent from the API,
+// function component. It also renders the "Submit" and "Cancel" buttons of a form, as well as handle their functionality
 export default (props) => {
   const {
     cancel,

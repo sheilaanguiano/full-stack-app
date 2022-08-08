@@ -13,6 +13,7 @@ import { Consumer } from './Context';
 
 export default ({ component: Component, ...rest }) => {
   return (
+    //  <Consumer> component subscribes PrivateRoute to all the actions and data provided by Context.js
     <Consumer>
       { context => (
         <Route
