@@ -44,15 +44,21 @@ export default function App() {
       <div>
         <HeaderWithContext />
         <Switch>
-          <Route exact path="/courses" component={Courses}/>
-          <Route path="/courses/:id" component={CourseDetail} />
+
+          {/* <Route exact path="/" component={Courses}/> */}
+          <Route  exact path="/courses" component={Courses}/>
           <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
+          <Route path="/courses/:id" component={CourseDetail} />
           <Route path="/signin" component={UserSignInWithContext} />  
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
           <Route component={Error} />
+
+          <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          
+         
+          
         </Switch>
       </div>
     </Router>

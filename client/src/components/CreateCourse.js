@@ -48,9 +48,9 @@ export default class CreateCourse extends Component {
                                     value={title} 
                                     onChange={this.change}    
                                     />
-                                    {/* { authUser && (
+                                    { authUser && (
                                     <p> By {authUser.firstName} {authUser.LastName}</p>
-                                )} */}
+                                )}
                                 <label htmlFor="description">Course Description</label>
                                 <textarea 
                                     id="description" 
@@ -96,7 +96,7 @@ export default class CreateCourse extends Component {
         });
       }
     
-      submit = () => {
+    submit = () => {
         const { context } = this.props;
         // const {emailAddress, password, id} = authUser;
       
@@ -131,5 +131,14 @@ export default class CreateCourse extends Component {
         //   .catch(err => { 
         //     this.props.history.push('/error');
         //   });
+    }
+
+    cancel = () => {
+        console.log(this.props.history);
+        this.props.history.push('/courses', );
       }
+
+
+
+
 }
