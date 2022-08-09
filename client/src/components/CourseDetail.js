@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-// import {Context} from '../Context';
+import ReactMarkdown from 'react-markdown';
+import {Context} from '../Context';
 
 
-function CourseDetail() {
+export default function CourseDetail() {
     const [course, setCourse] = useState([]);
-    // const context = useContext(Context.Context);
+    const { authenticatedUser } = useContext(Context);
+
     const {id} = useParams();
     let history = useHistory();
 
     useEffect(() => {
         const fetchData = async() => {
-            // try {
                 const response = await fetch(`http://localhost:5000/api/courses/${id}`);
                 if(response.status === 200) {
                     const json = await response.json();
@@ -21,12 +22,9 @@ function CourseDetail() {
                 } else {
                     history.push('/notfound');
                 }
-            // } catch (err) {
-            //     console.log("error", err)
-            // }
         };
         fetchData();
-    }, [id, history]);       
+    }, [history, id]);       
                       
    
     
@@ -38,9 +36,16 @@ function CourseDetail() {
             {/* Action Buttons  */}
             <div className="actions--bar">
                 <div className="wrap">
-                    <a className="button" href="update-course.html">Update Course</a>
-                    <a className="button" href="button">Delete Course</a>
-                    <a className="button button-secondary" href="index.html">Return to List</a>
+                    { authenticatedUser && authenticatedUser.id === course.userId 
+                        ?
+                        <React.Fragment>
+                            <Link className="button" to="/courses/:id/update">Update Course</Link>
+                            <Link className="button" to="button">Delete Course</Link>
+                            <Link className="button button-secondary" to="/courses">Return to List</Link>
+                        </React.Fragment>
+                        :
+                            <Link className="button button-secondary" to="/courses">Return to List</Link>
+                    }
                 </div>
             </div>
 
@@ -52,20 +57,20 @@ function CourseDetail() {
                         <div>
                             <h3 className="course--detail--title">Course</h3>
                             <h4 className="course--name">{course.title}</h4>
-                            <p>John Doe</p>
-
-                            <p>Lorem Ipsum</p>
-                            
-                           
+                            {course.user && (
+                              <p>
+                              By {course.user.firstName} {course.user.lastName}
+                              </p>
+                            )}
+                            <ReactMarkdown>{course.description}</ReactMarkdown>    
                         </div>
                         <div>
                             <h3 className="course--detail--title">Estimated Time</h3>
-                            <p>1000</p>
+                            <p>{course.estimatedTime}</p>
 
                             <h3 className="course--detail--title">Materials Needed</h3>
                             <ul className="course--detail--list">
-                                <li>Thing 1</li>
-                                <li>Thing 2</li>
+                                <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
                             </ul>
                         </div>
                     </div>
@@ -75,4 +80,3 @@ function CourseDetail() {
     );
 };
 
-export default CourseDetail;
