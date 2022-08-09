@@ -1,132 +1,124 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Form from './Form';
+import { Context }  from '../Context';
 
-export default class UserSignUp extends Component {
-    state = {
-        firstName: '',
-        LastName: '',
-        emailAddress:'',
-        password: '',
-        errors: [],
-      }
-    
-    render() {
-        const {
-          firstName,
-          lastName,
-          emailAddress,
-          password,
-          errors,
-        } = this.state;
-        
-        return (
-            <main>
-                <div className="form--centered">
-                    <h2>Sign Up</h2>
-                    
-                    <Form
-                        cancel={this.cancel}
-                        errors={errors}
-                        submit={this.submit}
-                        submitButtonText="Sign Up"
-                        elements={() => ( //render prop
-                            <React.Fragment>
-                                <label htmlFor="firstName">First Name</label>
-                                <input 
-                                    id="firstName" 
-                                    name="firstName" 
-                                    type="text" 
-                                    value={firstName}
-                                    onChange={this.change}
-                                    placeholder="Name" />
-                                
-                                <label htmlFor="lastName">Last Name</label>
-                                <input 
-                                    id="lastName" 
-                                    name="lastName" 
-                                    type="text" 
-                                    value={lastName}
-                                    onChange={this.change}
-                                    placeholder="Last Name" />
-                                <label htmlFor="emailAddress">Email Address</label>
-                                <input 
-                                    id="emailAddress" 
-                                    name="emailAddress" 
-                                    type="email" 
-                                    value={emailAddress}
-                                    onChange={this.change} 
-                                    placeholder="Email"
-                                    />
-                                <label htmlFor="password">Password</label>
-                                <input 
-                                    id="password" 
-                                    name="password" 
-                                    type="password" 
-                                    value={password}
-                                    onChange={this.change} 
-                                    placeholder="Password" />
-                            </React.Fragment>
-                        )} 
-                    />
-                    <p>Already have a user account? Click here to <Link to='/signin'>sign in</Link>!</p>
-                </div>
-            </main>
-        );
+const UserSignUp = () => {
+  
+  const history = useHistory();
+  const context = useContext(Context);
+  const[firstName, setFirstName] = useState('');
+  const[lastName, setLastName] = useState('');
+  const[emailAddress, setEmailAddress] = useState('');
+  const[password, setPassword] = useState();
+  const[errors, setErrors] = useState([]);
+  
+  // Creates a new User
+  const submit = () => {
+    const user = {
+       firstName,
+       lastName,
+       emailAddress,
+       password,
+   };
+   
+   context.data.createUser(user)
+     .then(errors => {
+       if(errors.length){
+         setErrors(errors);
+       } else {
+         context.actions.signIn(emailAddress, password)
+           .then(()=> {
+               history.push('/courses');
+           });
+       }
+     })
+     .catch(err => {     //handle rejected promises
+       console.log(err);
+       history.push('/error');
+     });
+ }
+
+  // User Input
+  const change = (event) => {
+    const value = event.target.value;
+    switch (event.target.name){
+      case "firstName":
+        setFirstName(value);
+        break;
+      case "lastName":
+        setLastName(value);
+        break;
+      case "emailAddress":
+        setEmailAddress(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      default:
+        return;
     }
+  }
 
-    change = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-    
-        this.setState(() => {
-          return {
-            [name]: value
-          };
-        });
-      }
-    
-      submit = () => {
-        //Props that pass to the Form component
-        const { context } = this.props;
-      
-        const {
-            firstName,
-            lastName,
-            emailAddress,
-            password,
-        } = this.state;
-    
-         // New user payload to be passed to createUser()
-         const user = {
-            firstName,
-            lastName,
-            emailAddress,
-            password,
-        };
-        
-        //Method to Create a user via API using Context
-        context.data.createUser(user)
-          .then(errors => {
-            if(errors.length){
-              this.setState({ errors });
-            } else {
-              console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-              context.actions.signIn(emailAddress, password)
-                .then(()=> {
-                  this.props.history.push('/authenticated');
-                  console.log("Do I access context?");
-                });
-            }
-          })
-          .catch(err => {     //handle rejected promises
-            console.log(err);
-            this.props.history.push('/error');
-          });
-      }
-    
-      cancel = () => {
-        console.log(this.props.history);
-        this.props.history.push('/courses', );
-      }
-}
+  const cancel = () => {
+    console.log(this.props.history);
+    history.push('/courses', );
+  }
+
+  
+  return (
+    <main>
+        <div className="form--centered">
+            <h2>Sign Up</h2>
+            
+            <Form
+                cancel={cancel}
+                errors={errors}
+                submit={submit}
+                submitButtonText="Sign Up"
+                elements={() => ( //render prop
+                    <React.Fragment>
+                        <label htmlFor="firstName">First Name</label>
+                        <input 
+                            id="firstName" 
+                            name="firstName" 
+                            type="text" 
+                            value={firstName}
+                            onChange={change}
+                            placeholder="Name" />
+                        
+                        <label htmlFor="lastName">Last Name</label>
+                        <input 
+                            id="lastName" 
+                            name="lastName" 
+                            type="text" 
+                            value={lastName}
+                            onChange={change}
+                            placeholder="Last Name" />
+                        <label htmlFor="emailAddress">Email Address</label>
+                        <input 
+                            id="emailAddress" 
+                            name="emailAddress" 
+                            type="email" 
+                            value={emailAddress}
+                            onChange={change} 
+                            placeholder="Email"
+                            />
+                        <label htmlFor="password">Password</label>
+                        <input 
+                            id="password" 
+                            name="password" 
+                            type="password" 
+                            value={password}
+                            onChange={change} 
+                            placeholder="Password" />
+                    </React.Fragment>
+                )} 
+            />
+            <p>Already have a user account? Click here to <Link to='/signin'>sign in</Link>!</p>
+        </div>
+    </main>
+  )
+};
+
+export default UserSignUp;
