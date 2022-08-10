@@ -29,14 +29,11 @@ export default class Data {
     }
 
     if (requiresAuth) {    
-      //Thanks to Bret Kitchell --> TH Slack
       const encodedCredentials = Buffer.from(`${credentials.emailAddress}:${credentials.password}`).toString('base64');
-
-       
+      
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
 
     }
-
     return fetch(url, options);
   }
 
@@ -93,18 +90,39 @@ export default class Data {
     }
   }
 
-  async createCourse(course, credentials) {
-    const { emailAddress, password} = credentials
-    const response = await this.api('/courses', 'POST', course, true, { emailAddress, password });
-    if (response.status === 201) {
-      return [];
+  async createCourse(course, emailAddress, password){
+    console.log(`Context Password: ${password}`);
+    const response = await this.api(`/courses`, 'POST', course, true, {emailAddress, password});
+    if (response.status === 201){
+        return[];
+    } else if(response.status === 400){
+        return response.json().then(data=>{
+            return data.errors;
+        })
+    } else {
+        throw new Error();
     }
-    else if (response.status === 400) {
-      return response.json().then(data => {
-        return data.errors;
-      });
+  }
+
+  async updateCourse(course, id, emailAddress, password){
+    const response = await this.api(`/courses/${id}`, 'PUT', course, true, {emailAddress, password});
+    if(response.status === 204){
+      return[];
+    } else if(response.status ===400){
+     
+    } else {
+      throw new Error();
     }
-    else {
+  }
+
+  // Makes a 'DELETE' request
+  async deleteCourse( id, emailAddress, password){
+    const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {emailAddress, password});
+    if(response.status === 204){ //Course deleted
+      console.log(`course ${id} was deleted`);
+    } else if (response.status === 403) {
+      console.log("You're not authorized to delete this course");
+    } else {
       throw new Error();
     }
   }

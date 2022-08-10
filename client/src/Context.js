@@ -22,7 +22,6 @@ export class Provider extends Component {
     super();
     this.data = new Data();
     this.cookie = Cookies.get('authenticatedUser');
-
     this.state = {
       authenticatedUser: this.cookie ? JSON.parse(this.cookie) : null
     };
@@ -56,8 +55,10 @@ export class Provider extends Component {
   
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
+    const userPassword = password;
     if(user !== null){
       this.setState(()=> {
+        user.userPassword = userPassword;
         return {
           authenticatedUser: user,
         }
@@ -67,7 +68,7 @@ export class Provider extends Component {
     return user;
   }
 
-  signOut = () => {
+   signOut = () => {
     this.setState(() => {
       return {
         authenticatedUser: null,

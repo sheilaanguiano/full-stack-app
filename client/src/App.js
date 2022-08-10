@@ -33,7 +33,6 @@ const AuthWithContext = withContext(Authenticated);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 // const CourseDetailWithContext = withContext(CourseDetail);
-const CreateCourseWithContext = withContext(CreateCourse);
 
 
 export default function App() {
@@ -46,15 +45,16 @@ export default function App() {
 
           {/* <Route exact path="/" component={Courses}/> */}
           <Route  exact path="/courses" component={Courses}/>
-          <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
+          <PrivateRoute path="/courses/create" component={CreateCourse} />
           <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
+          {/* <PrivateRoute path="/authenticated" component={AuthWithContext} /> */}
           <Route path="/courses/:id" component={CourseDetail} />
           <Route path="/signin" component={UserSignInWithContext} />  
           <Route path="/signup" component={UserSignUp} />
           <Route path="/signout" component={UserSignOutWithContext} />
           <Route component={Error} />
 
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          
           
          
           

@@ -61,8 +61,8 @@ const UserSignUp = () => {
   }
 
   const cancel = () => {
-    console.log(this.props.history);
-    history.push('/courses', );
+    // console.log(this.props.history);
+    history.push('/courses');
   }
 
   
