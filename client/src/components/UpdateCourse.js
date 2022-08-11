@@ -1,11 +1,11 @@
-import React, { useContext, useState, } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState, } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { Context } from '../Context';
 import Form from './Form';
 
 
 const UpdateCourse =() => {
-
+    const {id} = useParams();
     let history = useHistory();
     const context = useContext(Context);
     const authenticatedUser = context.authenticatedUser;
@@ -14,6 +14,21 @@ const UpdateCourse =() => {
     const [estimatedTime, setEstimatedTime] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
     const [errors, setErrors] = useState([]);
+
+    console.log(`course id: ${id}`);
+
+    useEffect(() => {
+        context.data.getCourse(id)
+        .then(course => {
+          setTitle(course.title)
+          setDescription(course.description)
+          setEstimatedTime(course.estimatedTime)
+          setMaterialsNeeded(course.materialsNeeded)
+        })
+        .catch(err => {     //handle rejected promises
+            console.log(err);
+        }); 
+    },[context.data, id, errors])
 
     const submit = () => {
         const emailAddress = authenticatedUser.emailAddress;
@@ -29,19 +44,20 @@ const UpdateCourse =() => {
             userId,
         }
         
-        context.data.createCourse(course, emailAddress, password)
-          .then(errors => {
-            if(errors.length){
-                setErrors(errors)  
+        context.data.updateCourse(course, id, emailAddress, password)
+        .then(errors => {
+            console.log(`output: ${errors}`)
+            if(errors && errors.length){
+                setErrors(errors);  
             } else {
-                console.log('course created!!!');
+                console.log('Course Updated!!!');
                 history.push('/courses')
             }
           })
-          .catch(err => { 
+        .catch(err => { 
             console.log(err);
             history.push('/error');     
-          });
+        })  
     }
 
 
@@ -78,7 +94,7 @@ const UpdateCourse =() => {
                 cancel={cancel}
                 errors={errors}
                 submit={submit}
-                submitButtonText="Create Course"
+                submitButtonText="Update Course"
                 elements={() =>(
                 <React.Fragment>
                     <div className="main--flex">
@@ -88,7 +104,7 @@ const UpdateCourse =() => {
                                 id="courseTitle" 
                                 name="title" 
                                 type="text" 
-                                defaultValue=""
+                                defaultValue={title}
                                 onChange={change}    
                                 />
                               
@@ -98,7 +114,7 @@ const UpdateCourse =() => {
                             <textarea 
                                 id="description" 
                                 name="description"
-                                defaultValue=""
+                                defaultValue={description}
                                 onChange={change} 
                             />
                         </div>
@@ -109,13 +125,13 @@ const UpdateCourse =() => {
                                 id="estimatedTime" 
                                 name="estimatedTime" 
                                 type="text" 
-                                defaultValue=""
+                                defaultValue={estimatedTime}
                                 onChange={change} 
                                 />
                             <label htmlFor="materialsNeeded">Materials Needed</label>
                             <textarea 
                                 id="materialsNeeded" name="materialsNeeded"
-                                defaultValue=""
+                                defaultValue={materialsNeeded}
                                 onChange={change}
                                 />
                         </div>

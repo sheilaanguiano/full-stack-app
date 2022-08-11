@@ -15,8 +15,8 @@ export default function CourseDetail() {
         const fetchData = async() => {
                 const response = await fetch(`http://localhost:5000/api/courses/${id}`);
                 if(response.status === 200) {
-                    const json = await response.json();
-                    setCourse(json);
+                    const course = await response.json();
+                    setCourse(course);
                 } else if (response.status === 500) {
                     history.push('/error');
                 } else {
@@ -44,10 +44,7 @@ export default function CourseDetail() {
         .catch(err => {
             history.push('/error');
         })
-
    }
-
-
    
     return (
         <main>
@@ -57,7 +54,7 @@ export default function CourseDetail() {
                     { authenticatedUser && authenticatedUser.id === course.userId 
                         ?
                         <React.Fragment>
-                            <Link className="button" to="/courses/:id/update">Update Course</Link>
+                            <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
                             <Link className="button" to="button" onClick={handleDelete}>Delete Course</Link>
                             <Link className="button button-secondary" to="/courses">Return to List</Link>
                         </React.Fragment>

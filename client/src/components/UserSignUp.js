@@ -83,7 +83,7 @@ const UserSignUp = () => {
                             id="firstName" 
                             name="firstName" 
                             type="text" 
-                            value={firstName}
+                            defaultValue={firstName}
                             onChange={change}
                             placeholder="Name" />
                         
@@ -92,7 +92,7 @@ const UserSignUp = () => {
                             id="lastName" 
                             name="lastName" 
                             type="text" 
-                            value={lastName}
+                            defaultValue={lastName}
                             onChange={change}
                             placeholder="Last Name" />
                         <label htmlFor="emailAddress">Email Address</label>
@@ -100,7 +100,7 @@ const UserSignUp = () => {
                             id="emailAddress" 
                             name="emailAddress" 
                             type="email" 
-                            value={emailAddress}
+                            defaultValue={emailAddress}
                             onChange={change} 
                             placeholder="Email"
                             />
@@ -109,7 +109,7 @@ const UserSignUp = () => {
                             id="password" 
                             name="password" 
                             type="password" 
-                            value={password}
+                            defaultValue={password}
                             onChange={change} 
                             placeholder="Password" />
                     </React.Fragment>

@@ -84,7 +84,7 @@ export default class Data {
     if(response.status === 200){
       return response.json().then(data => data);
     }else if (response.status === 401){
-      return null;
+      return console.log('Something is wrong');
     } else {
       throw new Error();
     }
@@ -96,9 +96,7 @@ export default class Data {
     if (response.status === 201){
         return[];
     } else if(response.status === 400){
-        return response.json().then(data=>{
-            return data.errors;
-        })
+        return response.json().then(data=> data.errors);
     } else {
         throw new Error();
     }
@@ -107,9 +105,9 @@ export default class Data {
   async updateCourse(course, id, emailAddress, password){
     const response = await this.api(`/courses/${id}`, 'PUT', course, true, {emailAddress, password});
     if(response.status === 204){
-      return[];
-    } else if(response.status ===400){
-     
+        console.log('Course updated');
+    } else if(response.status === 400) {
+      return response.json().then(data=> data.errors);
     } else {
       throw new Error();
     }
