@@ -31,13 +31,14 @@ const CreateCourse =() => {
             userId,
         }
         
+        //Send the payload to the API to process the information or return the validation errors
         context.data.createCourse(course, emailAddress, password)
           .then(errors => {
             if(errors.length){
                 setErrors(errors)  
             } else {
                 console.log('course created!!!');
-                history.push('/courses')
+                history.push('/')
             }
           })
           .catch(err => { 
@@ -69,7 +70,7 @@ const CreateCourse =() => {
     
     // Redirects to the main page
     const cancel = () => {
-        history.push('/courses');
+        history.push('/');
       }
 
   return (

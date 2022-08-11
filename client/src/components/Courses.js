@@ -6,7 +6,7 @@ const Courses = () => {
     const [courses, setCourses] = useState([]);
     const context = useContext(Context);
 
-
+    //Fetch data with the useEffect hook
     useEffect(() => {
         context.data.getCourses()
             .then((courses) => {

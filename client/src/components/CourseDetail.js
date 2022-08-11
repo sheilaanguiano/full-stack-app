@@ -11,6 +11,7 @@ export default function CourseDetail() {
     const [course, setCourse] = useState([]);
     const authenticatedUser = context.authenticatedUser;
 
+    //Fetch a single course directly from the API
     useEffect(() => {
         const fetchData = async() => {
                 const response = await fetch(`http://localhost:5000/api/courses/${id}`);
@@ -20,14 +21,13 @@ export default function CourseDetail() {
                 } else if (response.status === 500) {
                     history.push('/error');
                 } else {
-                    history.push('/notfound');
+                    history.push('/error');
                 }
         };
         fetchData();
     }, [history, id]);       
 
-    console.log(authenticatedUser);
-                      
+   // Handler for the button that appears only if the user is aauthenitcated && created the course                   
    const handleDelete = () => {
         const emailAddress = authenticatedUser.emailAddress;
         const password = authenticatedUser.userPassword;
@@ -38,7 +38,7 @@ export default function CourseDetail() {
                 console.log(`Failed with: ${errors}`);
             } else {
                 console.log('Course Deleted');
-                history.push('/courses');
+                history.push('/');
             }
           })
         .catch(err => {
@@ -56,10 +56,10 @@ export default function CourseDetail() {
                         <React.Fragment>
                             <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
                             <Link className="button" to="button" onClick={handleDelete}>Delete Course</Link>
-                            <Link className="button button-secondary" to="/courses">Return to List</Link>
+                            <Link className="button button-secondary" to="/">Return to List</Link>
                         </React.Fragment>
                         :
-                        <Link className="button button-secondary" to="/courses">Return to List</Link>
+                        <Link className="button button-secondary" to="/">Return to List</Link>
                     }
                 </div>
             </div>

@@ -9,14 +9,15 @@ const UpdateCourse =() => {
     let history = useHistory();
     const context = useContext(Context);
     const authenticatedUser = context.authenticatedUser;
+    //Initialize state
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [estimatedTime, setEstimatedTime] = useState('');
     const [materialsNeeded, setMaterialsNeeded] = useState('');
     const [errors, setErrors] = useState([]);
 
-    console.log(`course id: ${id}`);
 
+    // Fetch data of the course to be Updated
     useEffect(() => {
         context.data.getCourse(id)
         .then(course => {
@@ -43,15 +44,15 @@ const UpdateCourse =() => {
             materialsNeeded,
             userId,
         }
-        
+        //Send the payload to the API to process the information or return the validation errors
         context.data.updateCourse(course, id, emailAddress, password)
         .then(errors => {
             console.log(`output: ${errors}`)
-            if(errors && errors.length){
-                setErrors(errors);  
+            if (errors && errors.length){
+                setErrors(errors);  //Validations errors that will appear on the error display
             } else {
                 console.log('Course Updated!!!');
-                history.push('/courses')
+                history.push('/')
             }
           })
         .catch(err => { 
@@ -60,7 +61,7 @@ const UpdateCourse =() => {
         })  
     }
 
-
+    // Sets the new state when the form is updated
     const change = (event) => {
         const value = event.target.value;
         switch (event.target.name){
@@ -83,7 +84,7 @@ const UpdateCourse =() => {
     
     // Redirects to the main page
     const cancel = () => {
-        history.push('/courses');
+        history.push('/');
       }
 
   return (

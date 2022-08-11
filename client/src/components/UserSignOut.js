@@ -7,6 +7,6 @@ export default ({context}) => {
   useEffect(() =>  context.actions.signOut());
 
   return (
-    <Redirect to="/courses" />
+    <Redirect to="/" />
   );
 }

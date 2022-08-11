@@ -11,7 +11,7 @@ export default class Header extends React.PureComponent {
         return (
             <header>
                 <div className="wrap header--flex">
-                    <h1 className="header--logo"><Link to="/courses">Courses</Link></h1>
+                    <h1 className="header--logo"><Link to="/">Courses</Link></h1>
                     <nav>
                     {/* Conditionally Render the Header Nav */}
                         { authUser ?

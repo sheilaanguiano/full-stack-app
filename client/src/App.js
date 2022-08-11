@@ -21,15 +21,12 @@ import UserSignUp from './components/UserSignUp';
 import Error from './components/Error';
 
 
-
-
 // Functions ------------
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 
 
 const HeaderWithContext = withContext(Header);
-
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 

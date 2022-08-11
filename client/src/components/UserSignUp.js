@@ -29,7 +29,7 @@ const UserSignUp = () => {
        } else {
          context.actions.signIn(emailAddress, password)
            .then(()=> {
-               history.push('/courses');
+               history.push('/');
            });
        }
      })
@@ -62,7 +62,7 @@ const UserSignUp = () => {
 
   const cancel = () => {
     // console.log(this.props.history);
-    history.push('/courses');
+    history.push('/');
   }
 
   

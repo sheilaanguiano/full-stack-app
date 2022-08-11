@@ -47,7 +47,7 @@ export default class UserSignIn extends Component {
                             </React.Fragment>
                         )}
                     />
-                    <p>Don't have a user account? Click here to <Link to="/singup">sign up</Link>!</p>
+                    <p>Don't have a user account? Click here to <Link to="/signup">sign up</Link>!</p>
                 </div>
             </main>  
         );
@@ -67,9 +67,9 @@ export default class UserSignIn extends Component {
       submit = () => { 
         const { context } = this.props;
         const { emailAddress, password } = this.state;
-        const { from } = this.props.location.state || { from: { pathname: '/courses' } };
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
 
-        
+              
         context.actions.signIn(emailAddress, password)
           .then( user => {
             if(user === null){
@@ -88,7 +88,7 @@ export default class UserSignIn extends Component {
       }
     
       cancel = () => {
-        this.props.history.push('/courses');
+        this.props.history.push('/');
       }
 
 }

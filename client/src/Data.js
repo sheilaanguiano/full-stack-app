@@ -94,7 +94,7 @@ export default class Data {
     console.log(`Context Password: ${password}`);
     const response = await this.api(`/courses`, 'POST', course, true, {emailAddress, password});
     if (response.status === 201){
-        return[];
+        return [];
     } else if(response.status === 400){
         return response.json().then(data=> data.errors);
     } else {
@@ -107,7 +107,7 @@ export default class Data {
     if(response.status === 204){
         console.log('Course updated');
     } else if(response.status === 400) {
-      return response.json().then(data=> data.errors);
+      return response.json().then(data => data.errors);
     } else {
       throw new Error();
     }
