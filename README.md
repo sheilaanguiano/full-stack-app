@@ -17,5 +17,3 @@ In addition, the project will require users to create an account and sign in to 
 - On a new terminal open the client, install the project dependecies and start the client (localhost:3000) with the Front-end part of the project
 
 
-## About this Project
-- This project uses Basic Auth
